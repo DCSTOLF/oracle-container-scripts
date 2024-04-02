@@ -12,7 +12,7 @@
 export ORACLE_SID={instance and database names inside de container}
 export ORACLE_PWD={sys user password in the source database}
 export CONTAINER_DB={false for non-CDB, true for multi-tenant}
-export PRIMARY_DB_CONN_STR={EZ connect string for source database. Ex: 10.160.1.21:1521/orasrc1.delphix.lab}
+export PRIMARY_DB_CONN_STR={EZ connect string for source database. It's best to use the db unique name (db_name + db_domain) after the slash, if it's registered in the listener. Ex: 10.160.1.21:1521/orasrc1.delphix.lab}
 
 docker run -d --name staging-oracle-database --memory 2G \
 -p 1521:1521 -p 5500:5500 -p 2484:2484 \
