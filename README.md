@@ -4,7 +4,8 @@
 - Delphix environment should have an OS user with `uid=54321` and `gid=54321` (same as the Oracle user inside the container)
 - Set this user to the environment default
 - create a dSource in Delphix named `oracle-container-push` (example mount path: `/mnt/provision/oracle-container-push`)
-- copy the shell scripts contained in this repository into `oracle-container-push` mount point path take a snap
+- copy the shell scripts contained in this repository into `oracle-container-push` mount point path 
+- take a snapshot of the dSource
 
 ## Docker run do duplicate the database
  
@@ -34,3 +35,14 @@ docker run -d --name staging-oracle-database --memory 2G \
 --entrypoint /opt/oracle/oradata/runOracle.sh \
 533693045312.dkr.ecr.us-west-2.amazonaws.com/oracle-database:19.3.0-ee
 ```
+
+Take a snapshot of the dSource
+
+## Duplicating into Kubernetes
+
+- Edit the sys password in the Kubernete secret `00-oracle-rdbms-credentials.yaml`
+- `kubectl apply -f 00-oracle-rdbms-credentials.yaml`
+- Edit the container `image` in `01-oracle-deployment.yaml`. You might need to add registry secrets if using Oracle Registry.
+- Edit the `PersistentVolumeClaim` annotations and the `ConfigMap` environment variables in `01-oracle-deployment.yaml` (it should reflect the values that we've used for `docker run`)
+- `kubectl apply -f 01-oracle-deployment.yaml`
+- If the PVC is created but the pod fails, double check the environment user UID and GID (they should both be `54321`)
