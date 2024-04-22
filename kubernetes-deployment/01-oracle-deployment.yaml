@@ -34,10 +34,11 @@ data:
   ORACLE_CHARACTERSET: "AL32UTF8"
   ENABLE_ARCHIVELOG: "true"
   ENABLE_TCPS: "true"
-  CLONE_DB: "true"
-  PRIMARY_DB_CONN_STR: "10.160.1.21:1521/orasrc1.delphix.lab"
-  DATAFILE_DESTINATION: "/opt/oracle/oradata/ORASTB1/"
-  RECOVERY_AREA_DESTINATION: "/opt/oracle/oradata/ORASTB1/fast_recovery_area/onlinelog/"
+  # Clone DB, connections tring and datafile/redo destination should not be set for inside the K8S pod, as it's already been cloned inside the docker container in the staging/surrogate environment
+  #CLONE_DB: "true"
+  #PRIMARY_DB_CONN_STR: "10.160.1.21:1521/orasrc1.delphix.lab"
+  #DATAFILE_DESTINATION: "/opt/oracle/oradata/ORASTB1/"
+  #RECOVERY_AREA_DESTINATION: "/opt/oracle/oradata/ORASTB1/fast_recovery_area/onlinelog/"
   CONTAINER_DB: "false"
 ---
 apiVersion: apps/v1
