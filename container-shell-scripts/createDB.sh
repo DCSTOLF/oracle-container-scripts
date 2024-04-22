@@ -47,7 +47,7 @@ function setupTnsnames {
 
   if [[ -n ${PRIMARY_DB_CONN_STR} ]]; then
     SOURCE_SID=$(echo ${PRIMARY_DB_CONN_STR} | cut -d/ -f 2)
-    echo "$SOURCE_SID=${PRIMARY_DB_CONN_STR}" >>> "$ORACLE_HOME"/network/admin/tnsnames.ora
+    echo "$SOURCE_SID=${PRIMARY_DB_CONN_STR}" >> "$ORACLE_HOME"/network/admin/tnsnames.ora
   fi
 
   if [[ "${CONTAINER_DB}" == "true" ]]; then
