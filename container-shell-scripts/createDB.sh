@@ -102,6 +102,7 @@ else
     # Creating temporary response file containing sysPassword for clone/standby cases
     cat > "$ORACLE_BASE"/dbca.rsp <<EOF
 sysPassword=${ORACLE_PWD}
+automaticMemoryManagement=false
 EOF
     # sed -i -e "s|###ORACLE_PWD###|$ORACLE_PWD|g" "$ORACLE_BASE"/dbca.rsp
 
@@ -173,7 +174,7 @@ if [[ "${CLONE_DB}" == "true" ]] || [[ "${STANDBY_DB}" == "true" ]]; then
     # Creating clone database using DBCA after duplicating a primary database; CLONE_DB is set to true here
     # Ignoring shell check so as to treat DBCA_CRED_OPTIONS as separate args to dbca
     # shellcheck disable=SC2086
-    dbca -silent -createDuplicateDB -gdbName "${ORACLE_SID}" -primaryDBConnectionString "${PRIMARY_DB_CONN_STR}" ${DBCA_CRED_OPTIONS} -sid "${ORACLE_SID}" -databaseConfigType SINGLE -useOMF true -dbUniquename "${ORACLE_SID}" ${DESTINATION_CONFIG} ${INITPARAMS}  ORACLE_HOSTNAME="${ORACLE_HOSTNAME}" ||
+    dbca -silent -createDuplicateDB -gdbName "${ORACLE_SID}" -primaryDBConnectionString "${PRIMARY_DB_CONN_STR}" ${DBCA_CRED_OPTIONS} -sid "${ORACLE_SID}" -databaseConfigType SINGLE -useOMF true -dbUniquename "${ORACLE_SERVICE_NAME}" ${DESTINATION_CONFIG} ${INITPARAMS} ||
       cat /opt/oracle/cfgtoollogs/dbca/"$ORACLE_SID"/"$ORACLE_SID".log ||
       cat /opt/oracle/cfgtoollogs/dbca/"$ORACLE_SID".log
   fi
